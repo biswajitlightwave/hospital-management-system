@@ -24,6 +24,7 @@ router.post('/add_specializations', async (req, res) => {
 });
 // Add Specialization=======ends here==============
 
+
 // Fetching Specialization data from database to table======starts here========
 router.get('/fetch_specialization', async (req, res, next) => {
   try {
@@ -41,6 +42,7 @@ router.get('/fetch_specialization', async (req, res, next) => {
 });
 // Fetching Specialization data from database to table======ends here========
 
+
 // Adding Doctors to database=======starts here==============
 router.post('/add_doctors', async (req, res) => {
   const doctor = new Doctor(req.body);
@@ -56,6 +58,7 @@ router.post('/add_doctors', async (req, res) => {
   }
 });
 // Adding Doctors to database========ends here==============
+
 
 // Fetching doctors from database to table=======starts here==============
 router.get('/fetch_doctors', async (req, res, next) => {
@@ -74,11 +77,12 @@ router.get('/fetch_doctors', async (req, res, next) => {
 });
 // Fetching doctors from database to table=======ends here==============
 
+
 // Fetching data from database to Appointment table=========starts here========
 router.get('/fetchappointment', async (req, res, next) => {
   try {
     const ads = await Booking.find();
-    
+
     return res.status(200).json({
       success: true,
       count: ads.length,
@@ -90,6 +94,7 @@ router.get('/fetchappointment', async (req, res, next) => {
   }
 });
 // Fetching data from database to Appointment table=========ends here
+
 
 // Adding Patients to database========starts here=============
 router.post('/add_patients', function (req, res, next) {
@@ -121,6 +126,7 @@ router.post('/add_patients', function (req, res, next) {
   });
 });
 // Adding Patients to database=========ends here================
+
 
 // Fetching patients from database to table======starts here================
 router.get('/fetch_patients', async (req, res, next) => {
@@ -178,6 +184,7 @@ router.post('/login', async (req, res) => {
 });
 // Login Patient========ends here===============
 
+
 // Adding booking patients to database==========starts here=============
 router.post('/bookings', async (req, res) => {
   const booking = new Booking(req.body);
@@ -195,43 +202,3 @@ router.post('/bookings', async (req, res) => {
 // Adding booking patients to database============ends here==============
 
 module.exports = router;
-
-// router.post('/login', async (req, res) => {
-//   if (req.body.phone_number && req.body.password) {
-//     let user = await Patient.findOne(req.body).select('-password');
-//     if (user) {
-//       res.send(user);
-//     } else {
-//       res.send({ result: 'Invalid Phone Number or Password' });
-//     }
-//   } else {
-//     res.send({ result: 'All fields are required' });
-//   }
-// });
-
-// router.post('/patients', function (req, res, next) {
-//   Patient.create(req.body)
-//     .then(function (patient) {
-//       res.send(patient);
-//     })
-//     .catch(next);
-// });
-
-// router.post('/doctors', function (req, res, next) {
-//   Doctor.create(req.body)
-//     .then(function (doctor) {
-//       res.send(doctor);
-//     })
-//     .catch(next);
-// });
-// Adding Doctors to database
-
-// router.post('/bookings', function (req, res, next) {
-//   Booking.create(req.body)
-//     .then(function (booking) {
-//       res.send(booking);
-//     })
-//     .catch(next);
-// });
-// router.post('/register', AuthController.register);
-// router.post('/login', AuthController.login);

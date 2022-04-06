@@ -1,0 +1,40 @@
+
+// router.post('/login', async (req, res) => {
+//   if (req.body.phone_number && req.body.password) {
+//     let user = await Patient.findOne(req.body).select('-password');
+//     if (user) {
+//       res.send(user);
+//     } else {
+//       res.send({ result: 'Invalid Phone Number or Password' });
+//     }
+//   } else {
+//     res.send({ result: 'All fields are required' });
+//   }
+// });
+
+// router.post('/patients', function (req, res, next) {
+//   Patient.create(req.body)
+//     .then(function (patient) {
+//       res.send(patient);
+//     })
+//     .catch(next);
+// });
+
+// router.post('/doctors', function (req, res, next) {
+//   Doctor.create(req.body)
+//     .then(function (doctor) {
+//       res.send(doctor);
+//     })
+//     .catch(next);
+// });
+// Adding Doctors to database
+
+// router.post('/bookings', function (req, res, next) {
+//   Booking.create(req.body)
+//     .then(function (booking) {
+//       res.send(booking);
+//     })
+//     .catch(next);
+// });
+// router.post('/register', AuthController.register);
+// router.post('/login', AuthController.login);
