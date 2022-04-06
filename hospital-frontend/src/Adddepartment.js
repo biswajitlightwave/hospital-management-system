@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as ReactBootStrap from 'react-bootstrap';
 
 function Adddepartment() {
+
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:4000/api/fetch_specialization').then((response) => {
+      var data = response.data.data;
+      setPosts(data);
+    });
+  }, []);
+
   const [deptname, setDeptName] = useState();
   const handleChange = (e) => {
     var deptname = e.target.value;
@@ -15,12 +25,12 @@ function Adddepartment() {
     };
 
     axios
-      .post('http://localhost:4000/api/specializations', value)
+      .post('http://localhost:4000/api/add_specializations', value)
       .then((response) => {
-        if (response.data.Status == 200) {
+        if (response.data.Status === 200) {
           alert('Submit Successfully');
           window.location.reload();
-        } else if (response.data.Status == 500) {
+        } else if (response.data.Status === 500) {
           alert('Submit Error');
         } else {
           alert('something went wrong');
@@ -41,7 +51,7 @@ function Adddepartment() {
               onChange={handleChange}
             />
           </div>
-          <div className='col-12 text-center mt-5'>
+          <div className='col-12 text-center mt-4'>
             <button
               type='submit'
               className='btn btn-primary'
@@ -51,6 +61,28 @@ function Adddepartment() {
             </button>
           </div>
         </form>
+      </div>
+      <h4 className='header mt-5 mb-5' style={{ textDecoration: 'underline' }}>
+        Specialization Listing
+      </h4>
+      <div className='container'>
+        <ReactBootStrap.Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Specialization Id</th>
+              <th>Specialization Name</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((item) => (
+              <tr key={item.id}>
+                <td>{item._id}</td>
+                <td>{item.specialization}</td>
+              </tr>
+            ))}
+          </tbody>
+        </ReactBootStrap.Table>
       </div>
     </div>
   );

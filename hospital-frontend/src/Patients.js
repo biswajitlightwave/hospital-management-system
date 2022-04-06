@@ -12,7 +12,7 @@ function Patients() {
               {' '}
               <button
                 type='button'
-                class='btn btn-primary patient adminlink'
+                className='btn btn-primary patient adminlink'
                 onClick={() => {
                   history('/Patientregister');
                 }}
@@ -24,7 +24,7 @@ function Patients() {
               {' '}
               <button
                 type='button'
-                class='btn btn-primary patient adminlink1'
+                className='btn btn-primary patient adminlink1'
                 onClick={() => {
                   history('/Login');
                 }}
@@ -32,18 +32,18 @@ function Patients() {
                 Login
               </button>
             </div>
-            <div>
+            {/* <div>
               {' '}
               <button
                 type='button'
-                class='btn btn-primary patient adminlink2'
+                className='btn btn-primary patient adminlink2'
                 onClick={() => {
                   history('/Patientbooking');
                 }}
               >
                 Booking
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

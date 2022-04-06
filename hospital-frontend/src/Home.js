@@ -6,10 +6,11 @@ function Home() {
   return (
     <div>
       <div className='homebg position-relative'>
+          <h1 className='col-12 text-center' style={{background:'transparent', paddingTop:'5%', textDecoration: 'underline'}}>Hospital Management System</h1>
         <div className='homecontent'>
           <button
             type='button'
-            class='btn btn-primary admin'
+            className='btn btn-primary admin'
             onClick={() => {
               history('/Admin');
             }}
@@ -19,7 +20,7 @@ function Home() {
           <br></br>
           <button
             type='button'
-            class='btn btn-primary patient'
+            className='btn btn-primary patient'
             onClick={() => {
               history('/Patient');
             }}

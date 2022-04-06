@@ -12,7 +12,7 @@ function Admin() {
               {' '}
               <button
                 type='button'
-                class='btn btn-primary patient adminlink'
+                className='btn btn-primary patient adminlink'
                 onClick={() => {
                   history('/Adddepartment');
                 }}
@@ -24,7 +24,7 @@ function Admin() {
               {' '}
               <button
                 type='button'
-                class='btn btn-primary patient adminlink1'
+                className='btn btn-primary patient adminlink1'
                 onClick={() => {
                   history('/Adddoctor');
                 }}
@@ -36,7 +36,7 @@ function Admin() {
               {' '}
               <button
                 type='button'
-                class='btn btn-primary patient adminlink2'
+                className='btn btn-primary patient adminlink2'
                 onClick={() => {
                   history('/Appointmentlisting');
                 }}

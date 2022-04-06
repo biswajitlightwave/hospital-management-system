@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import * as ReactBootStrap from 'react-bootstrap';
 
 function Adddoctor() {
+
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:4000/api/fetch_doctors').then((response) => {
+      var data = response.data.data;
+      setPosts(data);
+    });
+  }, []);
+
+
   const [dept, setSpecialization] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:4004/quotes').then((response) => {
+    axios.get('http://localhost:4001/dropdown_specialization').then((response) => {
       // console.log(response.data);
       var data = response.data;
       var specialization = [];
@@ -37,11 +48,11 @@ function Adddoctor() {
     event.preventDefault();
     console.log('state', state);
 
-    axios.post('http://localhost:4000/api/doctors', state).then((response) => {
-      if (response.data.Status == 200) {
+    axios.post('http://localhost:4000/api/add_doctors', state).then((response) => {
+      if (response.data.Status === 200) {
         alert('Submit Successfully');
         window.location.reload();
-      } else if (response.data.Status == 500) {
+      } else if (response.data.Status === 500) {
         alert('Submit Error');
       } else {
         alert('something went wrong');
@@ -152,7 +163,7 @@ function Adddoctor() {
               value={state.doj}
             />
           </div>
-          <div className='col-12 text-center mt-5'>
+          <div className='col-12 text-center mt-4'>
             <button
               type='submit'
               className='btn btn-primary'
@@ -162,6 +173,41 @@ function Adddoctor() {
             </button>
           </div>
         </form>
+      </div>
+
+      <h4 className='header mt-5 mb-5' style={{ textDecoration: 'underline' }}>
+        Doctors Listing
+      </h4>
+      <div className='container'>
+        <ReactBootStrap.Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>DOB</th>
+              <th>Gender</th>
+              <th>Doctor's Specialization</th>
+              <th>Phone Number</th>
+              <th>Email ID</th>
+              <th>DOJ</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {posts.map((item) => (
+              <tr key={item.id}>
+                <td>{item.first_name}</td>
+                <td>{item.last_name}</td>
+                <td>{item.dob}</td>
+                <td>{item.gender}</td>
+                <td>{item.speciality}</td>
+                <td>{item.phone_number}</td>
+                <td>{item.email_id}</td>
+                <td>{item.doj}</td>
+              </tr>
+            ))}
+          </tbody>
+        </ReactBootStrap.Table>
       </div>
     </div>
   );

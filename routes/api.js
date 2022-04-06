@@ -7,8 +7,9 @@ const Booking = require('../models/booking');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Add Specialization
-router.post('/specializations', async (req, res) => {
+
+// Add Specialization=======starts here===========
+router.post('/add_specializations', async (req, res) => {
   const special = new Specialization(req.body);
   await special.save();
   try {
@@ -21,9 +22,124 @@ router.post('/specializations', async (req, res) => {
     });
   }
 });
-// Add Specialization
+// Add Specialization=======ends here==============
 
-// Login Patient
+// Fetching Specialization data from database to table======starts here========
+router.get('/fetch_specialization', async (req, res, next) => {
+  try {
+    const ads = await Specialization.find();
+
+    return res.status(200).json({
+      success: true,
+      count: ads.length,
+      data: ads,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'server error' });
+  }
+});
+// Fetching Specialization data from database to table======ends here========
+
+// Adding Doctors to database=======starts here==============
+router.post('/add_doctors', async (req, res) => {
+  const doctor = new Doctor(req.body);
+  await doctor.save();
+  try {
+    res.status(200).json({
+      Status: res.statusCode,
+    });
+  } catch {
+    res.status(500).json({
+      Status: res.statusCode,
+    });
+  }
+});
+// Adding Doctors to database========ends here==============
+
+// Fetching doctors from database to table=======starts here==============
+router.get('/fetch_doctors', async (req, res, next) => {
+  try {
+    const ads = await Doctor.find();
+
+    return res.status(200).json({
+      success: true,
+      count: ads.length,
+      data: ads,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'server error' });
+  }
+});
+// Fetching doctors from database to table=======ends here==============
+
+// Fetching data from database to Appointment table=========starts here========
+router.get('/fetchappointment', async (req, res, next) => {
+  try {
+    const ads = await Booking.find();
+    
+    return res.status(200).json({
+      success: true,
+      count: ads.length,
+      data: ads,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'server error' });
+  }
+});
+// Fetching data from database to Appointment table=========ends here
+
+// Adding Patients to database========starts here=============
+router.post('/add_patients', function (req, res, next) {
+  bcrypt.hash(req.body.password, 10, function (err, hashedPassword) {
+    if (err) {
+      res.json({
+        error: err,
+      });
+    }
+    const patient = new Patient({
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      dob: req.body.dob,
+      gender: req.body.gender,
+      phone_number: req.body.phone_number,
+      password: hashedPassword,
+      address: req.body.address,
+    });
+    patient.save();
+    try {
+      res.status(200).json({
+        Status: res.statusCode,
+      });
+    } catch {
+      res.status(500).json({
+        Status: res.statusCode,
+      });
+    }
+  });
+});
+// Adding Patients to database=========ends here================
+
+// Fetching patients from database to table======starts here================
+router.get('/fetch_patients', async (req, res, next) => {
+  try {
+    const ads = await Patient.find();
+
+    return res.status(200).json({
+      success: true,
+      count: ads.length,
+      data: ads,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'server error' });
+  }
+});
+// Fetching patients from database to table======ends here================
+
+// Login Patient==========starts here==============
 router.post('/login', async (req, res) => {
   var phone_number = req.body.phone_number;
   var password = req.body.password;
@@ -42,11 +158,14 @@ router.post('/login', async (req, res) => {
           });
           res.json({
             message: 'Login Successful',
+            Status: 200,
             token,
+            patient,
           });
         } else {
           res.json({
-            message: 'password doesnot matched',
+            message: 'password does not matched',
+            Status: 500,
           });
         }
       });
@@ -57,12 +176,12 @@ router.post('/login', async (req, res) => {
     }
   });
 });
-// Login Patient
+// Login Patient========ends here===============
 
-// Adding Doctors to database
-router.post('/doctors', async (req, res) => {
-  const doctor = new Doctor(req.body);
-  await doctor.save();
+// Adding booking patients to database==========starts here=============
+router.post('/bookings', async (req, res) => {
+  const booking = new Booking(req.body);
+  await booking.save();
   try {
     res.status(200).json({
       Status: res.statusCode,
@@ -73,66 +192,7 @@ router.post('/doctors', async (req, res) => {
     });
   }
 });
-// router.post('/doctors', function (req, res, next) {
-//   Doctor.create(req.body)
-//     .then(function (doctor) {
-//       res.send(doctor);
-//     })
-//     .catch(next);
-// });
-// Adding Doctors to database
-
-// Adding Patients to database
-router.post('/patients', function (req, res, next) {
-  bcrypt.hash(req.body.password, 10, function (err, hashedPassword) {
-    if (err) {
-      res.json({
-        error: err,
-      });
-    }
-    const patient = new Patient({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      dob: req.body.dob,
-      gender: req.body.gender,
-      phone_number: req.body.phone_number,
-      password: hashedPassword,
-      address: req.body.address,
-    });
-    patient
-      .save()
-      try {
-        res.status(200).json({
-          Status: res.statusCode,
-        });
-      } catch {
-        res.status(500).json({
-          Status: res.statusCode,
-        });
-      }
-      // .then((patient) => {
-      //   res.json({
-      //     message: 'Patient added successfully',
-      //   });
-      // })
-      // .catch((error) => {
-      //   res.json({
-      //     message: 'An error occurred!',
-      //   });
-      // });
-  });
-});
-// Adding Patients to database
-
-// Adding booking patients to database
-router.post('/bookings', function (req, res, next) {
-  Booking.create(req.body)
-    .then(function (booking) {
-      res.send(booking);
-    })
-    .catch(next);
-});
-// Adding booking patients to database
+// Adding booking patients to database============ends here==============
 
 module.exports = router;
 
@@ -157,5 +217,21 @@ module.exports = router;
 //     .catch(next);
 // });
 
+// router.post('/doctors', function (req, res, next) {
+//   Doctor.create(req.body)
+//     .then(function (doctor) {
+//       res.send(doctor);
+//     })
+//     .catch(next);
+// });
+// Adding Doctors to database
+
+// router.post('/bookings', function (req, res, next) {
+//   Booking.create(req.body)
+//     .then(function (booking) {
+//       res.send(booking);
+//     })
+//     .catch(next);
+// });
 // router.post('/register', AuthController.register);
 // router.post('/login', AuthController.login);
